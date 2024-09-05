@@ -1,0 +1,128 @@
+module ltp-augment-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:ltp-augment-1-0";
+  prefix ltp-augment;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: LtpAugment@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-03 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ltpAugment/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ltpAugment/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2023-05-24 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ltpAugment/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ltpAugment/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-08-26 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ltpAugment/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ltpAugment/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-07-30 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ltpAugment/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ltpAugment/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping ltp-augment-spec {
+    description
+      "none";
+    container ltp-augment-pac {
+      description
+        "none";
+      uses ltp-augment-pac;
+    }
+  }
+
+  grouping ltp-augment-pac {
+    description
+      "none";
+    leaf-list equipment {
+      type leafref {
+        path "/core-model:control-construct/core-model:equipment/core-model:uuid";
+        require-instance false;
+      }
+      config false;
+      description
+        "Equipment, which determines the characteristics of this interface (LTP).";
+    }
+    leaf connector {
+      type leafref {
+        path "/core-model:control-construct/core-model:equipment/core-model:connector/core-model:local-id";
+        require-instance false;
+      }
+      config false;
+      description
+        "Connector, where this interface (LTP) can be physically connected.";
+    }
+    leaf original-ltp-name {
+      type string;
+      default "Original name not yet defined.";
+      config false;
+      description
+        "Shall automatically be filled with a string that contains the logical- or physical interface name as it is represented at the vendor's own management interface e.g. LAN 1/2/1.";
+    }
+    leaf external-label {
+      type string;
+      default "External label not yet defined.";
+      description
+        "The externalLabel attribute is for the operator to persistently store an identifier from his documentation inside the device.";
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:logical-termination-point" {
+    description
+      "none";
+    uses ltp-augment-spec;
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+}

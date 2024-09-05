@@ -1,0 +1,425 @@
+module policing-profile-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:policing-profile-1-0";
+  prefix policing-profile;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: PolicingProfile@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-04 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/policingProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/policingProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2022-03-31 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/policingProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/policingProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  identity PROFILE_NAME_TYPE_POLICING_PROFILE {
+    base core-model:PROFILE_NAME_TYPE;
+    description
+      "none";
+  }
+
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity MARKER_MODE_TYPE {
+    description
+      "none";
+  }
+
+  identity MARKER_MODE_TYPE_COLOR_BLIND {
+    base MARKER_MODE_TYPE;
+    description
+      "In the Color-Blind mode, the meter assumes that the packet stream is uncolored.";
+  }
+
+  identity MARKER_MODE_TYPE_COLOR_AWARE {
+    base MARKER_MODE_TYPE;
+    description
+      "In the Color-Aware mode, the Meter assumes that some preceding entity has pre-colored the incoming packet stream so that each packet is either green, yellow, or red. Only green and yellow packets are metered and potentially re-collored.";
+  }
+
+  identity MARKER_MODE_TYPE_NOT_YET_DEFINED {
+    base MARKER_MODE_TYPE;
+    description
+      "none";
+  }
+
+  identity POLICER_KIND_TYPE {
+    description
+      "none";
+  }
+
+  identity POLICER_KIND_TYPE_SINGLE_RATE_THREE_COLOR {
+    base POLICER_KIND_TYPE;
+    description
+      "RFC2697. Coloring is done based on Committed Information Rate (CIR), Committed Burst Size (CBS) and Excess Burst Size (EBS). A packet is marked green if it doesn't exceed the CBS, yellow if it does exceed the CBS, but not the EBS, and red otherwise.";
+  }
+
+  identity POLICER_KIND_TYPE_TWO_RATE_THREE_COLOR {
+    base POLICER_KIND_TYPE;
+    description
+      "RFC2698. Coloring is done based on Peak Information Rate (PIR) and Committed Information Rate (CIR), and their associated burst sizes to be either green, yellow, or red.  A packet is marked red if it exceeds the PIR. Otherwise it is marked either yellow or green depending on whether it exceeds or doesn't exceed the CIR.";
+  }
+
+  identity POLICER_KIND_TYPE_NOT_YET_DEFINED {
+    base POLICER_KIND_TYPE;
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+
+  typedef marker-mode-type {
+    type identityref {
+      base MARKER_MODE_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef policer-kind-type {
+    type identityref {
+      base POLICER_KIND_TYPE;
+    }
+    description
+      "none";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping policing-profile-spec {
+    description
+      "none";
+    container policing-profile-pac {
+      description
+        "none";
+      uses policing-profile-pac;
+    }
+  }
+
+  grouping policing-profile-pac {
+    description
+      "none";
+    container policing-profile-capability {
+      config false;
+      description
+        "none";
+      uses policing-profile-capability;
+    }
+    container policing-profile-configuration {
+      config false;
+      description
+        "none";
+      uses policing-profile-configuration;
+    }
+  }
+
+  grouping policing-profile-capability {
+    description
+      "none";
+    leaf profile-naming-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = There is a free text field available for naming the profile.";
+    }
+    leaf-list supported-marker-mode-list {
+      type marker-mode-type;
+      default "MARKER_MODE_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Defines, whether potentially existing colloring shall be regarded, or not.";
+    }
+    leaf-list supported-policer-kind-list {
+      type policer-kind-type;
+      default "POLICER_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Defines the characteristics, which are used for determining the coloring of the packet.";
+    }
+    leaf information-rate-min {
+      type int32;
+      units "kbit/s";
+      default "-1";
+      config false;
+      description
+        "Minimum configurable throughput in kbit/s.\n";
+    }
+    leaf information-rate-max {
+      type int32;
+      units "kbit/s";
+      default "-1";
+      config false;
+      description
+        "Maximum configurable throughput in kbit/s.";
+    }
+    leaf burst-size-min {
+      type int16;
+      units "kByte";
+      default "-1";
+      config false;
+      description
+        "Minimum configurable value for the number of kBytes, which could be sent in a single burst.\n";
+    }
+    leaf burst-size-max {
+      type int16;
+      units "kByte";
+      default "-1";
+      config false;
+      description
+        "Maximum configurable value for the number of kBytes, which could be sent in a single burst.";
+    }
+  }
+
+  grouping policing-profile-configuration {
+    description
+      "none";
+    leaf external-label {
+      type string;
+      default "External label not yet defined.";
+      config false;
+      description
+        "Identifier of the instance of PolicingProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+    }
+    leaf marker-mode {
+      type marker-mode-type;
+      default "MARKER_MODE_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Defines, whether potentially existing colloring shall be regarded, or not.";
+    }
+    leaf policer-kind {
+      type policer-kind-type;
+      default "POLICER_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Defines the characteristics, which are used for determining the coloring of the packet.";
+    }
+    leaf committed-information-rate {
+      type int32;
+      units "kbit/s";
+      default "-1";
+      config false;
+      description
+        "Committed Information Rate (CIR) in unit of kbit/s including IP but not Ethernet header information.";
+    }
+    leaf committed-burst-size {
+      type int32;
+      units "kByte";
+      default "-1";
+      config false;
+      description
+        "Committed Burst Size (CBS) in unit of kByte.";
+    }
+    leaf excess-burst-size {
+      type int32;
+      units "kByte";
+      default "-1";
+      config false;
+      description
+        "Only relevant if (policerKind==SINGLE_RATE_THREE_COLOR). Excess Burst Size (EBS) in unit of kByte.";
+    }
+    leaf peak-information-rate {
+      type int32;
+      units "kbit/s";
+      default "-1";
+      config false;
+      description
+        "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Information Rate (PIR) in unit of kbit/s.";
+    }
+    leaf peak-burst-size {
+      type int32;
+      units "kByte";
+      default "-1";
+      config false;
+      description
+        "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Burst Size (PBS) in unit of kByte.";
+    }
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc create-policing-profile {
+    description
+      "none";
+    input {
+      leaf external-label {
+        type string;
+        description
+          "Identifier of the instance of PolicingProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+      }
+      leaf marker-mode {
+        type marker-mode-type;
+        mandatory true;
+        description
+          "Defines, whether potentially existing colloring shall be regarded, or not.";
+      }
+      leaf policer-kind {
+        type policer-kind-type;
+        mandatory true;
+        description
+          "Defines the characteristics, which are used for determining the coloring of the packet.";
+      }
+      leaf committed-information-rate {
+        type uint64;
+        mandatory true;
+        description
+          "Committed Information Rate (CIR) in unit of kbit/s including IP but not Ethernet header information.";
+      }
+      leaf committed-burst-size {
+        type uint64;
+        mandatory true;
+        description
+          "Committed Burst Size (CBS) in unit of kByte.";
+      }
+      leaf excess-burst-size {
+        type uint64;
+        description
+          "Only relevant if (policerKind==SINGLE_RATE_THREE_COLOR). Excess Burst Size (EBS) in unit of kByte.";
+      }
+      leaf peak-information-rate {
+        type uint64;
+        description
+          "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Information Rate (PIR) in unit of kbit/s.";
+      }
+      leaf peak-burst-size {
+        type uint64;
+        description
+          "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Burst Size (PBS) in unit of kByte.";
+      }
+    }
+    output {
+      leaf created-policing-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of PolicingProfile that has been newly created.";
+      }
+    }
+  }
+
+  rpc modify-policing-profile {
+    description
+      "none";
+    input {
+      leaf policing-profile-to-be-modified {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of PolicingProfile (ProfileNameType==PROFILE_NAME_TYPE_POLICING_PROFILE) that shall be modified.";
+      }
+      leaf external-label {
+        type string;
+        description
+          "Identifier of the instance of PolicingProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+      }
+      leaf marker-mode {
+        type marker-mode-type;
+        description
+          "Defines, whether potentially existing colloring shall be regarded, or not.";
+      }
+      leaf policer-kind {
+        type policer-kind-type;
+        description
+          "Defines the characteristics, which are used for determining the coloring of the packet.";
+      }
+      leaf committed-information-rate {
+        type uint64;
+        description
+          "Committed Information Rate (CIR) in unit of kbit/s including IP but not Ethernet header information.";
+      }
+      leaf committed-burst-size {
+        type uint64;
+        description
+          "Committed Burst Size (CBS) in unit of kByte.";
+      }
+      leaf excess-burst-size {
+        type uint64;
+        description
+          "Only relevant if (policerKind==SINGLE_RATE_THREE_COLOR). Excess Burst Size (EBS) in unit of kByte.";
+      }
+      leaf peak-information-rate {
+        type uint64;
+        description
+          "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Information Rate (PIR) in unit of kbit/s.";
+      }
+      leaf peak-burst-size {
+        type uint64;
+        description
+          "Only relevant if (policerKind==TWO_RATE_THREE_COLOR). Peak Burst Size (PBS) in unit of kByte.";
+      }
+    }
+  }
+
+  rpc delete-policing-profile {
+    description
+      "none";
+    input {
+      leaf obsolete-policing-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of PolicingProfile (ProfileNameType==PROFILE_NAME_TYPE_POLICING_PROFILE) that shall be deleted.";
+      }
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:profile-collection/core-model:profile" {
+    when "derived-from-or-self(./core-model:profile-name, 'policing-profile:PROFILE_NAME_TYPE_POLICING_PROFILE')";
+    description
+      "none";
+    uses policing-profile-spec;
+  }
+}

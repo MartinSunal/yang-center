@@ -1,0 +1,699 @@
+module qos-profile-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:qos-profile-1-0";
+  prefix qos-profile;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: QosProfile@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-04 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/qosProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/qosProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2022-04-05 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/qosProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/qosProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-01-24 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/qosProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/qosProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2019-07-12 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/qosProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/qosProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  identity PROFILE_NAME_TYPE_QOS_PROFILE {
+    base core-model:PROFILE_NAME_TYPE;
+    description
+      "none";
+  }
+
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity QOS_PROFILE_KIND_TYPE {
+    description
+      "none";
+  }
+
+  identity QOS_PROFILE_KIND_TYPE_NONE {
+    base QOS_PROFILE_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity QOS_PROFILE_KIND_TYPE_IEEE8021P {
+    base QOS_PROFILE_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity QOS_PROFILE_KIND_TYPE_MPLS_EXP {
+    base QOS_PROFILE_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity QOS_PROFILE_KIND_TYPE_IP_DSCP {
+    base QOS_PROFILE_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity QOS_PROFILE_KIND_TYPE_NOT_YET_DEFINED {
+    base QOS_PROFILE_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity QUEUE_NAME_TYPE {
+    description
+      "none";
+  }
+
+  identity QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 0.";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 1.";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 2.";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 3.";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE4 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 4.";
+  }
+
+  identity QUEUE_NAME_TYPE_EXPEDITED_FORWARDING_QUEUE {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 5.";
+  }
+
+  identity QUEUE_NAME_TYPE_CLASS_SELECTOR_QUEUE6 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 6.";
+  }
+
+  identity QUEUE_NAME_TYPE_CLASS_SELECTOR_QUEUE7 {
+    base QUEUE_NAME_TYPE;
+    description
+      "Queue 7.";
+  }
+
+  identity QUEUE_NAME_TYPE_NOT_YET_DEFINED {
+    base QUEUE_NAME_TYPE;
+    description
+      "none";
+  }
+
+  identity DROP_PRECEDENCE_TYPE {
+    description
+      "none";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_NONE {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "none";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_LOW {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to GREEN.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_MEDIUM {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to YELLOW.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_HIGH {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to RED.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+
+  typedef qos-profile-kind-type {
+    type identityref {
+      base QOS_PROFILE_KIND_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef queue-name-type {
+    type identityref {
+      base QUEUE_NAME_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef drop-precedence-type {
+    type identityref {
+      base DROP_PRECEDENCE_TYPE;
+    }
+    description
+      "none";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping qos-profile-spec {
+    description
+      "none";
+    container qos-profile-pac {
+      description
+        "none";
+      uses qos-profile-pac;
+    }
+  }
+
+  grouping qos-profile-pac {
+    description
+      "none";
+    container qos-profile-capability {
+      config false;
+      description
+        "none";
+      uses qos-profile-capability;
+    }
+    container qos-profile-configuration {
+      config false;
+      description
+        "none";
+      uses qos-profile-configuration;
+    }
+  }
+
+  grouping qos-profile-capability {
+    description
+      "none";
+    leaf profile-naming-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = There is a free text field available for naming the profile.";
+    }
+    list available-queue-list {
+      key "queue-name";
+      config false;
+      description
+        "List of queues and the configurable queue depth values.";
+      uses available-queue-type;
+    }
+    leaf drop-precedence-at-be-queue-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Configuration of the drop precedence is available at the best effort queue.";
+    }
+    leaf drop-precedence-at-af-queues-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Configuration of the drop precedence is available at the assured forwarding queues.";
+    }
+    leaf drop-precedence-at-prio-queues-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Configuration of the drop precedence is available at the priority queues.";
+    }
+    leaf-list available-qos-profile-kind-list {
+      type qos-profile-kind-type;
+      default "QOS_PROFILE_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "List of header information that are supported to be base of the QoS definition.";
+    }
+    leaf queue-depth-configuration-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = queue depth can be configured as a profile and applied on several interfaces or even the entire switch.";
+    }
+  }
+
+  grouping qos-profile-configuration {
+    description
+      "Defines the profile that will be used for mapping between header information and queues (next hop behavior).";
+    leaf external-label {
+      type string;
+      default "External label not yet defined.";
+      config false;
+      description
+        "Identifier of the instance of QosProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+    }
+    list queue-depth-list {
+      key "queue-name";
+      config false;
+      description
+        "The device has to represent a list of its queues.";
+      uses queue-depth-type;
+    }
+    leaf qos-profile-kind {
+      type qos-profile-kind-type;
+      default "QOS_PROFILE_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Defines whether the sorting into queues is done based on VLAN, MPLS or IP header information.";
+    }
+    list ingress-8021p-to-per-hop-behavior-mapping-list {
+      key "p-8021-priority";
+      config false;
+      min-elements 8;
+      max-elements 8;
+      description
+        "Only relevant when qosProfileKind == IEEE8021P. Associates the value of the three p-bits of the VLAN header with a per hop behavior at the physical interface. First entry in the list [0] relates to p-bit value '0'. Last entry in the list [7] relates to p-bit value '7'.";
+      uses p-8021-per-hop-behavior-type;
+    }
+    list ingress-exp-to-per-hop-behavior-mapping-list {
+      key "exp-priority";
+      config false;
+      min-elements 8;
+      max-elements 8;
+      description
+        "Only relevant when qosProfileKind == MPLS_EXP. Associates the value of the three p-bits of the MPLS header with a per hop behavior at the physical interface. First entry in the list [0] relates to p-bit value '0'. Last entry in the list [7] relates to p-bit value '7'.";
+      uses exp-per-hop-behavior-type;
+    }
+    list ingress-ip-dscp-to-per-hop-behavior-mapping-list {
+      key "dscp-priority";
+      config false;
+      min-elements 64;
+      max-elements 64;
+      description
+        "Only relevant when qosProfileKind == IP_DSCP. Associates the value of the 8 dscp bits of the IP header with a per hop behavior at the physical interface. First entry in the list [0] relates to dscp value '0'. Last entry in the list [63] relates to dscp value '63'.";
+      uses dscp-per-hop-behavior-type;
+    }
+    leaf writing-per-hop-behavior-into-8021p-is-on {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Original content of 802.1p bits is overwritten with local per hop behavior.";
+    }
+    list egress-per-hop-behavior-to-8021p-mapping-list {
+      key "mapping-number";
+      config false;
+      min-elements 24;
+      max-elements 24;
+      description
+        "Only relevant if (writingPerHopBehaviorInto8021pIsOn==true). Translates (queue and drop precedence) into values of the three p-bits of the VLAN header.";
+      uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+    }
+    leaf writing-per-hop-behavior-into-mpls-exp-is-on {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Original content of MPLS EXP bits is overwritten with local per hop behavior.";
+    }
+    list egress-per-hop-behavior-to-mpls-exp-mapping-list {
+      key "mapping-number";
+      config false;
+      min-elements 24;
+      max-elements 24;
+      description
+        "Only relevant if (writingPerHopBehaviorIntoMplsExpIsOn==true). Translates (queue and drop precedence) into values of the three p-bits of the MPLS header.";
+      uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+    }
+    leaf writing-per-hop-behavior-into-ip-dscp-is-on {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Original content of IP DSCP bits is overwritten with local per hop behavior.";
+    }
+    list egress-per-hop-behavior-to-ip-dscp-mapping-list {
+      key "mapping-number";
+      config false;
+      min-elements 24;
+      max-elements 24;
+      description
+        "Only relevant if (writingPerHopBehaviorIntoIpDscpIsOn==true). Translates (queue and drop precedence) into values of the six dscp bits of the IP header.";
+      uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+    }
+  }
+
+  grouping available-queue-type {
+    description
+      "none";
+    leaf queue-name {
+      type queue-name-type;
+      config false;
+      mandatory true;
+      description
+        "Name of the queue.";
+    }
+    leaf-list supported-queue-depth-list {
+      type int32;
+      units "Byte";
+      default "-1";
+      config false;
+      description
+        "If configuration of the depth of the queue is available as a profile, which can be applied at several interfaces or even the entire switch, this attribute would represent the configurable values in Byte. The supportedQueueDepthList attribute must exclusively contain values, which are actually configurable at the hardware (except of the default value -1, in case buffer size cannot be configured at all as a profile). The values listed here might be all or a subset of values actually configurable at the hardware. To allow configuring the device according to its full capabilities, the values entered into the QueueDepthType::queueDepth attribute are not limited to the ones stated here. If a value, which is supported by the hardware, but not listed in the supportedQueueDepthList attribute, would be tried to be configured, the device-software or mediator-software shall successfully validate (and operate) it.";
+    }
+  }
+
+  grouping queue-depth-type {
+    description
+      "none";
+    leaf queue-name {
+      type queue-name-type;
+      mandatory true;
+      description
+        "Name of the queue.";
+    }
+    leaf queue-depth {
+      type int32;
+      units "Byte";
+      default "-1";
+      description
+        "If supportedQueueDepthList != -1 for the same queue, this attribute has to represent the currently configured queue depth, otherwise the default value.";
+    }
+  }
+
+  grouping p-8021-per-hop-behavior-type {
+    description
+      "none";
+    leaf p-8021-priority {
+      type uint8;
+      mandatory true;
+      description
+        "Value of the p-bits of the VLAN header.";
+    }
+    leaf queue-name {
+      type queue-name-type;
+      default "QUEUE_NAME_TYPE_NOT_YET_DEFINED";
+      description
+        "Name of the queue.";
+    }
+    leaf drop-precedence-inside-queue {
+      type drop-precedence-type;
+      default "DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED";
+      description
+        "(if dropPrecedenceAt*QueueIsAvail for the referenced queue == false) default value shall be kept and configuration attempts shall be ignored.";
+    }
+  }
+
+  grouping exp-per-hop-behavior-type {
+    description
+      "none";
+    leaf exp-priority {
+      type uint8;
+      mandatory true;
+      description
+        "Value of the Exp bits of the MPLS header.";
+    }
+    leaf queue-name {
+      type queue-name-type;
+      default "QUEUE_NAME_TYPE_NOT_YET_DEFINED";
+      description
+        "Name of the queue.";
+    }
+    leaf drop-precedence-inside-queue {
+      type drop-precedence-type;
+      default "DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED";
+      description
+        "(if dropPrecedenceAt*QueueIsAvail for the referenced queue == false) default value shall be kept and configuration attempts shall be ignored.";
+    }
+  }
+
+  grouping dscp-per-hop-behavior-type {
+    description
+      "none";
+    leaf dscp-priority {
+      type uint8;
+      mandatory true;
+      description
+        "Value of the dscp bits of the IP header.";
+    }
+    leaf queue-name {
+      type queue-name-type;
+      default "QUEUE_NAME_TYPE_NOT_YET_DEFINED";
+      description
+        "Name of the queue.";
+    }
+    leaf drop-precedence-inside-queue {
+      type drop-precedence-type;
+      default "DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED";
+      description
+        "(if dropPrecedenceAt*QueueIsAvail for the referenced queue == false) default value shall be kept and configuration attempts shall be ignored.";
+    }
+  }
+
+  grouping egress-per-hop-behavior-to-priority-bits-mapping-type {
+    description
+      "none";
+    leaf mapping-number {
+      type int8;
+      mandatory true;
+      description
+        "none";
+    }
+    leaf queue-name {
+      type queue-name-type;
+      default "QUEUE_NAME_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Name of the queue.";
+    }
+    leaf drop-precedence-inside-queue {
+      type drop-precedence-type;
+      default "DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "(if dropPrecedenceAt*QueueIsAvail for the referenced queue == false) default value shall be kept and configuration attempts shall be ignored.";
+    }
+    leaf value-of-priority-bits {
+      type int8;
+      default "-1";
+      description
+        "Associated value of the three, three or six p-bits of the VLAN, MPLS or IP header.";
+    }
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc create-qos-profile {
+    description
+      "none";
+    input {
+      leaf base-qos-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        description
+          "If filled with an UUID of an existing instance of QosProfile (ProfileNameType==PROFILE_NAME_TYPE_QOS_PROFILE), the RPC shall create a duplicate of the existing instance. If the attribute is not provided, the device shall create a QosProfile according to an internal default.";
+      }
+    }
+    output {
+      leaf created-qos-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of QosProfile that has been newly created.";
+      }
+    }
+  }
+
+  rpc modify-qos-profile {
+    description
+      "none";
+    input {
+      leaf qos-profile-to-be-modified {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of QosProfile (ProfileNameType==PROFILE_NAME_TYPE_QOS_PROFILE) that shall be modified.";
+      }
+      leaf external-label {
+        type string;
+        description
+          "Identifier of the instance of QosProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+      }
+      list queue-depth-list {
+        key "queue-name";
+        max-elements 8;
+        description
+          "Facilitates configuring the depth of the individual queues.";
+        uses queue-depth-type;
+      }
+      leaf qos-profile-kind {
+        type qos-profile-kind-type;
+        description
+          "Defines whether the sorting into queues is done based on VLAN, MPLS or IP header information.";
+      }
+      list ingress-8021p-to-per-hop-behavior-mapping-list {
+        key "p-8021-priority";
+        max-elements 8;
+        description
+          "Only relevant when qosProfileKind == IEEE8021P. Associates the value of the three p-bits of the VLAN header with a per hop behavior at the physical interface. First entry in the list [0] relates to p-bit value '0'. Last entry in the list [7] relates to p-bit value '7'.";
+        uses p-8021-per-hop-behavior-type;
+      }
+      list ingress-exp-to-per-hop-behavior-mapping-list {
+        key "exp-priority";
+        max-elements 8;
+        description
+          "Only relevant when qosProfileKind == MPLS_EXP. Associates the value of the three p-bits of the MPLS header with a per hop behavior at the physical interface. First entry in the list [0] relates to p-bit value '0'. Last entry in the list [7] relates to p-bit value '7'.";
+        uses exp-per-hop-behavior-type;
+      }
+      list ingress-ip-dscp-to-per-hop-behavior-mapping-list {
+        key "dscp-priority";
+        max-elements 64;
+        description
+          "Only relevant when qosProfileKind == IP_DSCP. Associates the value of the 8 dscp bits of the IP header with a per hop behavior at the physical interface. First entry in the list [0] relates to dscp value '0'. Last entry in the list [63] relates to dscp value '63'.";
+        uses dscp-per-hop-behavior-type;
+      }
+      leaf writing-per-hop-behavior-into-8021p-is-on {
+        type boolean;
+        description
+          "true = Original content of 802.1p bits is overwritten with local per hop behavior.";
+      }
+      list egress-per-hop-behavior-to-8021p-mapping-list {
+        key "mapping-number";
+        max-elements 24;
+        description
+          "Only relevant if (writingPerHopBehaviorInto8021pIsOn==true). Translates (queue and drop precedence) into values of the three p-bits of the VLAN header.";
+        uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+      }
+      leaf writing-per-hop-behavior-into-mpls-exp-is-on {
+        type boolean;
+        description
+          "true = Original content of MPLS EXP bits is overwritten with local per hop behavior.";
+      }
+      list egress-per-hop-behavior-to-mpls-exp-mapping-list {
+        key "mapping-number";
+        max-elements 24;
+        description
+          "Only relevant if (writingPerHopBehaviorIntoMplsExpIsOn==true). Translates (queue and drop precedence) into values of the three p-bits of the MPLS header.";
+        uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+      }
+      leaf writing-per-hop-behavior-into-ip-dscp-is-on {
+        type boolean;
+        description
+          "true = Original content of IP DSCP bits is overwritten with local per hop behavior.";
+      }
+      list egress-per-hop-behavior-to-ip-dscp-mapping-list {
+        key "mapping-number";
+        max-elements 24;
+        description
+          "Only relevant if (writingPerHopBehaviorIntoIpDscpIsOn==true). Translates (queue and drop precedence) into values of the six dscp bits of the IP header.";
+        uses egress-per-hop-behavior-to-priority-bits-mapping-type;
+      }
+    }
+  }
+
+  rpc delete-qos-profile {
+    description
+      "none";
+    input {
+      leaf obsolete-qos-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of QosProfile (ProfileNameType==PROFILE_NAME_TYPE_QOS_PROFILE) that shall be deleted.";
+      }
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:profile-collection/core-model:profile" {
+    when "derived-from-or-self(./core-model:profile-name, 'qos-profile:PROFILE_NAME_TYPE_QOS_PROFILE')";
+    description
+      "none";
+    uses qos-profile-spec;
+  }
+}

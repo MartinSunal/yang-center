@@ -1,0 +1,735 @@
+module ethernet-container-fd-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:ethernet-container-fd-1-0";
+  prefix ethernet-container-fd;
+
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: EthernetContainerFd@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Technology specific augmentation to the ForwardingDomain for describing potential forwarding of frames on OSI layer 1.
+
+     Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-03 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ethernetContainerFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ethernetContainerFd/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2023-10-05 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/ethernetContainerFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ethernetContainerFd/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  identity LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER {
+    base core-model:LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "none";
+  }
+
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity FD_STATUS_TYPE {
+    description
+      "none";
+  }
+
+  identity FD_STATUS_TYPE_UP {
+    base FD_STATUS_TYPE;
+    description
+      "Ready to pass packets.";
+  }
+
+  identity FD_STATUS_TYPE_DOWN {
+    base FD_STATUS_TYPE;
+    description
+      "The interface does not pass any packets.";
+  }
+
+  identity FD_STATUS_TYPE_TESTING {
+    base FD_STATUS_TYPE;
+    description
+      "In some test mode.  No operational packets can be passed.";
+  }
+
+  identity FD_STATUS_TYPE_UNKNOWN {
+    base FD_STATUS_TYPE;
+    description
+      "Status cannot be determined for some reason.";
+  }
+
+  identity FD_STATUS_TYPE_DORMANT {
+    base FD_STATUS_TYPE;
+    description
+      "Waiting for some external event.";
+  }
+
+  identity FD_STATUS_TYPE_NOT_PRESENT {
+    base FD_STATUS_TYPE;
+    description
+      "Some component (typically hardware) is missing.";
+  }
+
+  identity FD_STATUS_TYPE_LOWER_LAYER_DOWN {
+    base FD_STATUS_TYPE;
+    description
+      "Down due to state of lower-layer interface(s).";
+  }
+
+  identity FD_STATUS_TYPE_ADMIN_DOWN {
+    base FD_STATUS_TYPE;
+    description
+      "Down due to configuration.";
+  }
+
+  identity FD_STATUS_TYPE_NOT_YET_DEFINED {
+    base FD_STATUS_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE {
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_NONE {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_ETHERNET_MAC {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_VLAN {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_Q_IN_Q {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_MPLS {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_IPV4 {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_IPV6 {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_TCP {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_UDP {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_RTP {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_GTP_U {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_OTHERS {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity PROTOCOL_LAYER_TYPE_NOT_YET_DEFINED {
+    base PROTOCOL_LAYER_TYPE;
+    description
+      "none";
+  }
+
+  identity QUEUE_NAME_TYPE {
+    description
+      "none";
+  }
+
+  identity QUEUE_NAME_TYPE_BEST_EFFORT_QUEUE {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=0;";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE1 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=1;";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE2 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=2;";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE3 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=3;";
+  }
+
+  identity QUEUE_NAME_TYPE_ASSURED_FORWARDING_QUEUE4 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=4;";
+  }
+
+  identity QUEUE_NAME_TYPE_EXPEDITED_FORWARDING_QUEUE {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=5;";
+  }
+
+  identity QUEUE_NAME_TYPE_CLASS_SELECTOR_QUEUE6 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=6;";
+  }
+
+  identity QUEUE_NAME_TYPE_CLASS_SELECTOR_QUEUE7 {
+    base QUEUE_NAME_TYPE;
+    description
+      "QueueNumber=7;";
+  }
+
+  identity QUEUE_NAME_TYPE_QUEUENAME_NOT_YET_DEFINED {
+    base QUEUE_NAME_TYPE;
+    description
+      "none";
+  }
+
+  identity DROP_PRECEDENCE_TYPE {
+    description
+      "none";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_ALL {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "If all drop precedence are affected. This includes the case of drop precedencies are not implemented.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_LOW {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to GREEN.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_MEDIUM {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to YELLOW.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_HIGH {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "Would be equal to RED.";
+  }
+
+  identity DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED {
+    base DROP_PRECEDENCE_TYPE;
+    description
+      "none";
+  }
+
+  identity DROPPING_BEHAVIOR_KIND_TYPE {
+    description
+      "none";
+  }
+
+  identity DROPPING_BEHAVIOR_KIND_TYPE_DROP_TAIL {
+    base DROPPING_BEHAVIOR_KIND_TYPE;
+    description
+      "When the queue is filled to capacity, newly arriving packets are discarded until there is room in the queue to accept new traffic.  Packets are not differentiated, i.e., all packets are treated identically.";
+  }
+
+  identity DROPPING_BEHAVIOR_KIND_TYPE_RED {
+    base DROPPING_BEHAVIOR_KIND_TYPE;
+    description
+      "Queue management based on Random Early Detection (RED).  RED drops packets based on a drop probability that is based on the average queue length, and settings of minimum and maximum queue thresholds.  On ECN-capable devices, packets may be marked instead of dropped to signal congestion to the sender.";
+  }
+
+  identity DROPPING_BEHAVIOR_KIND_TYPE_WRED {
+    base DROPPING_BEHAVIOR_KIND_TYPE;
+    description
+      "Queue management based on a variant of RED in which the packet drop probability is based on its traffic class.";
+  }
+
+  identity DROPPING_BEHAVIOR_KIND_TYPE_NOT_YET_DEFINED {
+    base DROPPING_BEHAVIOR_KIND_TYPE;
+    description
+      "none";
+  }
+
+  identity SCHEDULER_KIND_TYPE {
+    description
+      "none";
+  }
+
+  identity SCHEDULER_KIND_TYPE_STRICT {
+    base SCHEDULER_KIND_TYPE;
+    description
+      "Strict Priority";
+  }
+
+  identity SCHEDULER_KIND_TYPE_WFQ {
+    base SCHEDULER_KIND_TYPE;
+    description
+      "Weighted-Fair-Queuing";
+  }
+
+  identity SCHEDULER_KIND_TYPE_WRR {
+    base SCHEDULER_KIND_TYPE;
+    description
+      "Weighted Round Robin";
+  }
+
+  identity SCHEDULER_KIND_TYPE_DWRR {
+    base SCHEDULER_KIND_TYPE;
+    description
+      "Deficit Weighted Round Robin";
+  }
+
+  identity SCHEDULER_KIND_TYPE_NOT_YET_DEFINED {
+    base SCHEDULER_KIND_TYPE;
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+
+  typedef protocol-layer-type {
+    type identityref {
+      base PROTOCOL_LAYER_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef queue-name-type {
+    type identityref {
+      base QUEUE_NAME_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef drop-precedence-type {
+    type identityref {
+      base DROP_PRECEDENCE_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef dropping-behavior-kind-type {
+    type identityref {
+      base DROPPING_BEHAVIOR_KIND_TYPE;
+    }
+    description
+      "none";
+  }
+
+  typedef scheduler-kind-type {
+    type identityref {
+      base SCHEDULER_KIND_TYPE;
+    }
+    description
+      "none";
+  }
+
+  /****************************************
+   * package super-types
+   **************************************/ 
+
+  typedef fd-status-type {
+    type identityref {
+      base FD_STATUS_TYPE;
+    }
+    description
+      "Current Status of the Forwarding Domain";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping ethernet-container-fd-spec {
+    description
+      "The set of components associated with a given Bridge. For example, - A TPMR is associated with a single VLAN unaware component. - A Customer VLAN Bridge is associated with a single VLAN aware component. - A Provider Bridge is associated with a single S-VLAN component and zero or more C-VLAN components. Name in ieee802-dot1q-bridge.yang: component.";
+    container ethernet-container-fd-pac {
+      description
+        "none";
+      uses ethernet-container-fd-pac;
+    }
+  }
+
+  grouping ethernet-container-fd-pac {
+    description
+      "If the Ethernet switch is forwarding incoming frames to all interfaces until it made an entry about a source MAC address in its table as a default, there shall be an EthernetContainerFc connecting all the interfaces of the Ethernet switch as an initial state.";
+    container ethernet-container-fd-capability {
+      config false;
+      description
+        "none";
+      uses ethernet-container-fd-capability;
+    }
+    container ethernet-container-fd-configuration {
+      description
+        "none";
+      uses ethernet-container-fd-configuration;
+    }
+    container ethernet-container-fd-status {
+      config false;
+      description
+        "none";
+      uses ethernet-container-fd-status;
+    }
+  }
+
+  grouping ethernet-container-fd-capability {
+    description
+      "none";
+    leaf configuring-separated-layer-1-forwardings-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Component supports grouping of interfaces (EthernetContainer) for separated layer 1 frame forwarding.";
+    }
+    leaf frame-forwarding-without-vlan-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Component supports forwarding of frames as a bare MAC switching without VLANs.";
+    }
+    leaf queue-depth-configuration-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "This attribute has to be set on 'true', if the queue depth can be configured for the entire switch.";
+    }
+    leaf dropping-behavior-configuration-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "This attribute has to be set on 'true', if the dropping behavior can be configured for the entire switch";
+    }
+    leaf wred-profile-configuration-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "This attribute has to be set on 'true', if the WRED Profile can be configured for the entire switch.";
+    }
+    leaf scheduler-kind-configuration-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "This attribute has to be set on 'true', if the kind of scheduler can be configured for the entire switch";
+    }
+    list available-queue-list {
+      key "queue-name";
+      config false;
+      min-elements 1;
+      max-elements 8;
+      description
+        "List of queues, which are available at the physical interface.";
+      uses available-queue-type;
+    }
+  }
+
+  grouping ethernet-container-fd-configuration {
+    description
+      "none";
+    leaf fd-name {
+      type string;
+      default "Forwarding Domain name not yet defined.";
+      description
+        "The name of the Component. Free text field to be filled by the operator.";
+    }
+    list queue-behavior-list {
+      key "queue-name";
+      min-elements 1;
+      max-elements 8;
+      description
+        "Defines scheduling and dropping behavior of all queues.";
+      uses queue-behavior-type;
+    }
+    leaf scheduler-profile {
+      type leafref {
+        path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+        require-instance false;
+      }
+      mandatory true;
+      description
+        "none";
+    }
+  }
+
+  grouping ethernet-container-fd-status {
+    description
+      "none";
+    leaf fd-status {
+      type fd-status-type;
+      default "FD_STATUS_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Operational status of the forwarding domain.";
+    }
+  }
+
+  grouping available-queue-type {
+    description
+      "none";
+    leaf queue-name {
+      type queue-name-type;
+      config false;
+      mandatory true;
+      description
+        "Name of the queue.";
+    }
+    leaf-list supported-queue-depth-list {
+      type int32;
+      units "Byte";
+      default "-1";
+      config false;
+      description
+        "Configurable values of the depth of the queue in Byte. The supportedQueueDepthList attribute must exclusively contain values, which are actually configurable at the hardware (except of the default value -1, in case buffer size cannot be configured at all). The values listed here might be all or a subset of values actually configurable at the hardware. To allow configuring the device according to its full capabilities, the values entered into the QueueBehaviorType::queueDepth attribute are not limited to the ones stated here. If a value, which is supported by the hardware, but not listed in the supportedQueueDepthList attribute, would be tried to be configured, the device-software or mediator-software shall successfully validate (and operate) it.";
+    }
+    leaf-list available-dropping-behavior-kind-list {
+      type dropping-behavior-kind-type;
+      default "DROPPING_BEHAVIOR_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Lists the available types of behavior in case of congestions.";
+    }
+    leaf-list available-drop-precedence-kind-list {
+      type drop-precedence-type;
+      default "DROP_PRECEDENCE_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Explicit list (ALL not to be used here) of drop precedencies, which are available for this queue.";
+    }
+    leaf wred-profile-per-drop-precedence-is-available {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = Separate WRED profiles can be defined for every drop precedence.";
+    }
+    leaf-list available-scheduling-kind-list {
+      type scheduler-kind-type;
+      default "SCHEDULER_KIND_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Lists the available types of scheduling.";
+    }
+  }
+
+  grouping wred-behavior-type {
+    description
+      "none";
+    leaf affected-drop-precedence {
+      type drop-precedence-type;
+      mandatory true;
+      description
+        "Definition of the drop precedence, for which the WRED profile shall apply on.";
+    }
+    leaf affected-protocol {
+      type protocol-layer-type;
+      mandatory true;
+      description
+        "Definition of the kind of protocol, for which the WRED profile shall apply on.";
+    }
+    leaf wred-profile {
+      type leafref {
+        path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+        require-instance false;
+      }
+      mandatory true;
+      description
+        "Associates a WRED profile to the queue, respectively drop precedence. Attribute to point to an instance of Profile with profileName=='PROFILE_NAME_TYPE_WRED_PROFILE'.";
+    }
+  }
+
+  grouping queue-behavior-type {
+    description
+      "none";
+    leaf queue-name {
+      type queue-name-type;
+      mandatory true;
+      description
+        "Name of the queue.";
+    }
+    leaf queue-depth {
+      type int32;
+      units "Byte";
+      default "-1";
+      description
+        "Only relevant if (supportedQueueDepthList != -1). Size of the queue in Byte. If a value, which is not supported by the hardware, would be tried to be configured, the device-software or mediator-software might either respond with operation failed and ...Configuration value out of range of hardware capabilities... or it could map the sent configuration value on the closest value, which is actually supported by the hardware. Configuration attempts with values lower than the minimum value or higher than the maximum value of the supportedQueueDepthList must be answered with the operation failed and ...Configuration value out of range of hardware capabilities...";
+    }
+    leaf dropping-behavior-kind {
+      type dropping-behavior-kind-type;
+      default "DROPPING_BEHAVIOR_KIND_TYPE_NOT_YET_DEFINED";
+      description
+        "Defines the behavior in case of congestions.";
+    }
+    list wred-behavior-list {
+      key "affected-drop-precedence affected-protocol";
+      description
+        "Only relevant if (droppingBehaviorKind==WRED).";
+      uses wred-behavior-type;
+    }
+    leaf scheduler-kind {
+      type scheduler-kind-type;
+      default "SCHEDULER_KIND_TYPE_NOT_YET_DEFINED";
+      description
+        "Type of scheduler to be used for this queue.";
+    }
+    leaf weighting {
+      type int8;
+      units "%";
+      default "-1";
+      description
+        "Only relevant if (schedulerKind==WFQ) OR (schedulerKind==DWRR) OR (schedulerKind==WRR). Serving rate for this weighted fair queueing queue as a percentage value.";
+    }
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc create-ethernet-container-fc {
+    description
+      "Creates a new layer 1 frame forwarding between the referenced interfaces on the referenced Ethernet switch or hub. The following error-messages are to be send, if the operation would fail: #[onf:Referenced object is invalid.]#, if the referenced ForwardingDomain or at least one of the referenced LogicalTerminationPoints does not exist on the EthernetContainer layer, or if at least one of the referenced LogicalTerminationPoints is not connected to the referenced ForwardingDomain. #[onf:Resources not available.]#, if e.g. an additional layer 1 forwarding cannot be configured or a referenced LogicalTerminationPoint is already referenced by an existing EthernetContainerFc.";
+    input {
+      leaf affected-ethernet-container-fd {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the Ethernet switch or hub that provides the frame forwarding.";
+      }
+      leaf-list to-be-connected-ethernet-container-list {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        min-elements 2;
+        description
+          "List of references to EthernetContainer interfaces that shall be connected by frame forwarding.";
+      }
+    }
+    output {
+      leaf created-ethernet-container-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference to the newly created frame based forwarding.";
+      }
+    }
+  }
+
+  rpc delete-ethernet-container-fc {
+    description
+      "Removes an existing frame forwarding (EthernetContainerFc). The following error-messages are to be send, if the operation would fail: #[onf:Frame forwarding cannot be deleted.]#, e.g. if the hardware does not support deleting the referenced forwarding. #[onf:Referenced object is invalid.]#, if the referenced ForwardingDomain or ForwardingConstruct does not belong to the EthernetContainer layer or the referenced ForwardingConstruct connot be found in the referenced ForwardingDomain.";
+    input {
+      leaf affected-ethernet-container-fd {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the Ethernet switch or hub that supports the frame forwarding, which shall be deleted.";
+      }
+      leaf obsolete-ethernet-container-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the frame forwarding that shall be deleted.";
+      }
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:forwarding-domain" {
+    when "derived-from-or-self(./core-model:layer-protocol-name, 'ethernet-container-fd:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER')";
+    description
+      "none";
+    uses ethernet-container-fd-spec;
+  }
+}

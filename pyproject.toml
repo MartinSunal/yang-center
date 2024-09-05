@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "yang-center"
+version = "0.1.0"
+description = "Collection of YANG modules and their visual representation."
+authors = ["Martin Sunal <martin@paxet.io>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "4.12.3"
+lxml = "5.3.0"
+pyang = "2.6.1"
+soupsieve = "2.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,181 @@
+module ethernet-container-fc-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:ethernet-container-fc-1-0";
+  prefix ethernet-container-fc;
+
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: EthernetContainerFc@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Technology specific Forwarding Construct for bare Frame Forwarding.
+
+     Copyright 2023 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-03 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany
+       Please view https://github.com/openBackhaul/ethernetContainerFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ethernetContainerFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2023-10-05 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany
+       Please view https://github.com/openBackhaul/ethernetContainerFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/ethernetContainerFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  identity LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER {
+    base core-model:LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "none";
+  }
+
+  augment "/core-model:control-construct/core-model:forwarding-domain/core-model:fc" {
+    when "derived-from-or-self(./core-model:layer-protocol-name, 'ethernet-container-fc:LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER')";
+    uses ethernet-container-fc-spec;
+    description
+      "none";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping ethernet-container-fc-spec {
+    container ethernet-container-fc-pac {
+      uses ethernet-container-fc-pac;
+      description
+        "none";
+    }
+    description
+      "Represents the frame forwarding, which is configured.";
+  }
+
+  grouping ethernet-container-fc-pac {
+    container ethernet-container-fc-capability {
+      config false;
+      uses ethernet-container-fc-capability;
+      description
+        "none";
+    }
+    container ethernet-container-fc-configuration {
+      uses ethernet-container-fc-configuration;
+      description
+        "none";
+    }
+    description
+      "none";
+  }
+
+  grouping ethernet-container-fc-capability {
+    leaf adding-ethernet-container-to-fc-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = It is supported to add another EthernetContainer to an existing EthernetContainerFc.";
+    }
+    leaf removing-ethernet-container-from-fc-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "true = It is supported to remove an EthernetContainer from an existing EthernetContainerFc.";
+    }
+    description
+      "none";
+  }
+
+  grouping ethernet-container-fc-configuration {
+    leaf fc-name {
+      type string;
+      default "Frame forwarding name not yet defined.";
+      description
+        "Description of the frame forwarding, could be a name, could be a number.";
+    }
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc add-ethernet-container-to-fc {
+    description
+      "Adds another EthernetContainer interface to an existing frame forwarding (EthernetContainerFc). The following error-messages are to be send, if the operation would fail: #[onf:EthernetContainer cannot be added to frame forwarding.]#, e.g. if the hardware does not support modifying the referenced forwarding or the EthernetContainer already belong to another frame forwarding. #[onf:Referenced object is invalid.]#, if the referenced ForwardingConstruct or the referenced LogicalTerminationPoint does not exist or does not belong to the EthernetContainer layer, or the referenced LogicalTerminationPoint is not connected with the EthernetContainerFd that holds the referenced EthernetContainerFc.";
+    input {
+      leaf affected-ethernet-container-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference to the existing frame forwarding (ForwardingConstruct with LayerProtocol::layerProtocolName==LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER) that shall be modified.";
+      }
+      leaf to-be-connected-ethernet-container {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference to the EthernetContainer interface (LogicalTerminationPoint with LayerProtocol::layerProtocolName==LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER) that shall be added to the referenced frame forwarding.";
+      }
+    }
+  }
+
+  rpc remove-ethernet-container-from-fc {
+    description
+      "Removes an EthernetContainer interface from an existing frame forwarding (EthernetContainerFc). The following error-messages are to be send, if the operation would fail: #[onf:EthernetContainer cannot be removed from frame forwarding.]#, e.g. if the hardware does not support modifying the referenced forwarding. #[onf:Referenced object is invalid.]#, if the referenced ForwardingConstruct or the referenced LogicalTerminationPoint does not exist or does not belong to the EthernetContainer layer.";
+    input {
+      leaf affected-ethernet-container-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference to the existing frame forwarding (ForwardingConstruct with LayerProtocol::layerProtocolName==LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER) that shall be modified.";
+      }
+      leaf to-be-disconnected-ethernet-container {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference to the EthernetContainer interface (LogicalTerminationPoint with LayerProtocol::layerProtocolName==LAYER_PROTOCOL_NAME_TYPE_ETHERNET_CONTAINER_LAYER) that shall be removed from the referenced frame forwarding.";
+      }
+    }
+  }
+}

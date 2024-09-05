@@ -1,0 +1,304 @@
+module co-channel-profile-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:co-channel-profile-1-0";
+  prefix co-channel-profile;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: CoChannelProfile@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Technology specific definition for groups of microwave radio interfaces, which are using the same frequency channel (XPIC, MIMO and ALIC).
+
+     Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-03 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/coChannelProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/coChannelProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-01-27 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/coChannelProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/coChannelProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2019-11-02 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/coChannelProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/coChannelProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2019-07-17 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/coChannelProfile/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/coChannelProfile/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  identity PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE {
+    base core-model:PROFILE_NAME_TYPE;
+    description
+      "none";
+  }
+
+  augment "/core-model:control-construct/core-model:profile-collection/core-model:profile" {
+    when "derived-from-or-self(./core-model:profile-name, 'co-channel-profile:PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE')";
+    uses co-channel-profile-spec;
+    description
+      "none";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping co-channel-profile-spec {
+    container co-channel-profile-pac {
+      uses co-channel-profile-pac;
+      description
+        "none";
+    }
+    description
+      "none";
+  }
+
+  grouping co-channel-profile-pac {
+    container co-channel-profile-capability {
+      config false;
+      uses co-channel-profile-capability;
+      description
+        "none";
+    }
+    container co-channel-profile-configuration {
+      config false;
+      uses co-channel-profile-configuration;
+      description
+        "none";
+    }
+    description
+      "none";
+  }
+
+  grouping co-channel-profile-capability {
+    leaf xpic-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "In case this device is in general capable of XPIC, this field shall contain a 'true'. This information shall purely relate to capabilities of the equipment type, but not to the operational capability of a specific hardware composition on site. Means for example that this attribute might contain a 'true' statement, even if an additional cable would have been required to actually operate XPIC in a specific case.";
+    }
+    leaf mimo-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "In case the device is capable of MIMO, this field shall contain a 'true'.";
+    }
+    leaf number-of-mimo-channels-max {
+      type int8;
+      units "channels";
+      default "1";
+      config false;
+      description
+        "Maximum number (n) of spatial multiplexing streams that can be conveyed by an n x n MIMO configuration.";
+    }
+    leaf alic-is-avail {
+      type boolean;
+      default "false";
+      config false;
+      description
+        "In case the device is capable of Adjacent Link Interference Cancelation (canceling of interference cause by transmitters located at the same site), this field shall contain a 'true'.";
+    }
+    description
+      "none";
+  }
+
+  grouping co-channel-profile-configuration {
+    leaf external-label {
+      type string;
+      default "External label not yet defined.";
+      config false;
+      description
+        "Identifier of the instance of CoChannelProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+    }
+    leaf kind-of-co-channel-profile {
+      type kind-of-co-channel-profile-type;
+      default "KIND_OF_CO_CHANNEL_PROFILE_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Type of group (XPIC, MIMO, ALIC) of air interfaces with the same transmit and receive frequency.";
+    }
+    leaf-list logical-termination-point-list {
+      type leafref {
+        path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+        require-instance false;
+      }
+      config false;
+      description
+        "List of AirInterfaces, which are part of the co-channel group. Referenced LTP must associate a LayerProtocol class with layerProtocolName attribute having LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER as value.";
+    }
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+
+  typedef kind-of-co-channel-profile-type {
+    type identityref {
+      base KIND_OF_CO_CHANNEL_PROFILE_TYPE;
+    }
+    description
+      "none";
+  }
+
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity KIND_OF_CO_CHANNEL_PROFILE_TYPE {
+    description
+      "none";
+  }
+
+  identity KIND_OF_CO_CHANNEL_PROFILE_TYPE_XPIC {
+    base KIND_OF_CO_CHANNEL_PROFILE_TYPE;
+    description
+      "Cross Polarization Interference Cancellation";
+  }
+
+  identity KIND_OF_CO_CHANNEL_PROFILE_TYPE_MIMO {
+    base KIND_OF_CO_CHANNEL_PROFILE_TYPE;
+    description
+      "Multiple Input Multiple Output";
+  }
+
+  identity KIND_OF_CO_CHANNEL_PROFILE_TYPE_ALIC {
+    base KIND_OF_CO_CHANNEL_PROFILE_TYPE;
+    description
+      "Adjacent Link Interference Cancellation";
+  }
+
+  identity KIND_OF_CO_CHANNEL_PROFILE_TYPE_NOT_YET_DEFINED {
+    base KIND_OF_CO_CHANNEL_PROFILE_TYPE;
+    description
+      "none";
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc create-co-channel-profile {
+    description
+      "none";
+    input {
+      leaf external-label {
+        type string;
+        description
+          "Identifier of the instance of CoChannelProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+      }
+      leaf kind-of-co-channel-profile {
+        type kind-of-co-channel-profile-type;
+        mandatory true;
+        description
+          "Type of group (XPIC, MIMO, ALIC) of air interfaces with the same transmit and receive frequency.";
+      }
+      leaf-list logical-termination-point-list {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        description
+          "List of AirInterfaces, which are part of the co-channel group. Referenced LTP must associate a LayerProtocol class with layerProtocolName attribute having LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER as value.";
+      }
+    }
+    output {
+      leaf created-co-channel-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of CoChannelProfile that has been newly created.";
+      }
+    }
+  }
+
+  rpc modify-co-channel-profile {
+    description
+      "none";
+    input {
+      leaf co-channel-profile-to-be-modified {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of CoChannelProfile (ProfileNameType==PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE) that shall be modified.";
+      }
+      leaf external-label {
+        type string;
+        description
+          "Identifier of the instance of CoChannelProfile. Could be a name, could be a number. Free text field to be filled by the operator.";
+      }
+      leaf-list new-logical-termination-point-list {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        description
+          "New list of AirInterfaces, which are part of the co-channel group. Referenced LTP must associate a LayerProtocol class with layerProtocolName attribute having LAYER_PROTOCOL_NAME_TYPE_AIR_LAYER as value. This list is replacing the existing configuration. It is not possible to add or remove individual LTPs from the list. If the attribute is not provided in the RPC request, the existing list of LTPs shall be kept.";
+      }
+    }
+  }
+
+  rpc delete-co-channel-profile {
+    description
+      "none";
+    input {
+      leaf obsolete-co-channel-profile {
+        type leafref {
+          path "/core-model:control-construct/core-model:profile-collection/core-model:profile/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "UUID of the instance of CoChannelProfile (ProfileNameType==PROFILE_NAME_TYPE_CO_CHANNEL_PROFILE) that shall be deleted.";
+      }
+    }
+  }
+}

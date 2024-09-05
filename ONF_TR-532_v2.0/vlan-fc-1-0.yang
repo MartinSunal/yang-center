@@ -1,0 +1,271 @@
+module vlan-fc-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:vlan-fc-1-0";
+  prefix vlan-fc;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+  import vlan-interface-1-0 {
+    prefix vlan-interface;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: VlanFc@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Technology specific Forwarding Construct for VLANs according to IEEE 802.1Q-2018.
+
+     Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-04 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2022-04-07 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2021-02-07 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2021-01-05 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-08-26 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFc/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2019-08-19 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany
+       Please view https://github.com/openBackhaul/vlanFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/vlanFc/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE {
+    description
+      "none";
+  }
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE_C_VLAN_COMPONENT {
+    base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "Base identity for a C-VLAN component. Name in ieee802-dot1q-bridge.yang: c-vlan-component.";
+  }
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE_S_VLAN_COMPONENT {
+    base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "Base identity for a S-VLAN component. Name in ieee802-dot1q-bridge.yang: s-vlan-component.";
+  }
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE_D_BRIDGE_COMPONENT {
+    base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "Base identity for a VLAN unaware component. Name in ieee802-dot1q-bridge.yang: d-bridge-component.";
+  }
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE_EDGE_RELAY_COMPONENT {
+    base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "Base identity for an EVB station ER component. Name in ieee802-dot1q-bridge.yang: edge-relay-component. ";
+  }
+
+  identity SUB_LAYER_PROTOCOL_NAME_TYPE_NOT_YET_DEFINED {
+    base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    description
+      "none";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+
+  typedef sub-layer-protocol-name-type {
+    type identityref {
+      base SUB_LAYER_PROTOCOL_NAME_TYPE;
+    }
+    description
+      "Represents the type of Component. Name in ieee802-dot1q-bridge.yang: type-of-component.";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping vlan-fc-spec {
+    description
+      "Represents the VLAN, which is configured on the C-VLAN or S-VLAN Component. Name in ieee802-dot1q-bridge.yang: vlan.";
+    container vlan-fc-pac {
+      description
+        "none";
+      uses vlan-fc-pac;
+    }
+  }
+
+  grouping vlan-fc-pac {
+    description
+      "none";
+    container vlan-fc-capability {
+      config false;
+      description
+        "none";
+      uses vlan-fc-capability;
+    }
+    container vlan-fc-configuration {
+      description
+        "none";
+      uses vlan-fc-configuration;
+    }
+  }
+
+  grouping vlan-fc-capability {
+    description
+      "none";
+    leaf-list supported-sub-layer-protocol-name-list {
+      type sub-layer-protocol-name-type;
+      default "SUB_LAYER_PROTOCOL_NAME_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Lists the supported kinds of Components (implicitly defines the Ethertypes of the VLAN headers, which can be forwarded).";
+    }
+  }
+
+  grouping vlan-fc-configuration {
+    description
+      "none";
+    leaf fc-name {
+      type string;
+      default "VLAN name not yet defined.";
+      description
+        "Description of the VLAN, could be a name, could be a number. Free text of up to 32 letters to be filled by the operator. Name in ieee802-dot1q-bridge.yang: name.";
+    }
+    leaf sub-layer-protocol-name {
+      type sub-layer-protocol-name-type;
+      default "SUB_LAYER_PROTOCOL_NAME_TYPE_NOT_YET_DEFINED";
+      description
+        "Type of VLAN (e.g. C-VLAN, S-VLAN), respectively Ethertype, which is forwarded.";
+    }
+    leaf vlan-id {
+      type int64;
+      default "-1";
+      description
+        "The VLAN ID, which identifies the frames to be forwarded. Range '1..4094 | 4096..4294967295'. Name in ieee802-dot1q-bridge.yang: vid.";
+    }
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc create-vlan-fc-port {
+    description
+      "Adds a VLAN interface of the same sub layer to an already existing VLAN (VlanFc). The references of the VLAN (VlanFc) and the to be connected VLAN interface must be provided as input. The following error-messages are to be send, if the operation would fail: #[onf:Referenced object is invalid.]#, if the referenced ForwardingConstruct or LogicalTerminationPoint does not exist or does not belong to the VLAN layer and same sub layer (e.g. C-VLAN or S-VLAN). #[onf:VLAN interface cannot be added.]#, if the referenced VLAN interface cannot be added to the referenced VLAN (VlanFc).";
+    input {
+      leaf affected-vlan-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the VLAN (VlanFc), which shall connect the additional VLAN interface (LTP).";
+      }
+      leaf associated-vlan-interface {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the VLAN interface (LTP), which shall be connected with the VLAN (VlanFc).";
+      }
+    }
+    output {
+      leaf created-vlan-fc-port {
+        type string;
+        mandatory true;
+        description
+          "localId of the VlanFcPort (either newly created or already existing) that is connecting the VLAN interface (LTP) with the VLAN (VlanFc).";
+      }
+    }
+  }
+
+  rpc delete-vlan-fc-port {
+    description
+      "Removes a VLAN interface from an existing VLAN (VlanFc). The references of the VLAN (VlanFc) and the to be disconnected VLAN interface must be provided as input. The following error-messages are to be send, if the operation would fail: #[onf:Referenced object is invalid.]#, if the referenced ForwardingConstruct or LogicalTerminationPoint does not exist or does not belong to the VLAN layer and same sub layer (e.g. C-VLAN or S-VLAN). #[onf:VLAN interface cannot be disconnected.]#, if the referenced VLAN interface cannot be removed from the referenced VLAN (VlanFc).";
+    input {
+      leaf affected-vlan-fc {
+        type leafref {
+          path "/core-model:control-construct/core-model:forwarding-domain/core-model:fc/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the VLAN (VlanFc), which shall no longer be connected with the VLAN interface (LTP), which is also provided as input.";
+      }
+      leaf obsolete-vlan-interface {
+        type leafref {
+          path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+          require-instance false;
+        }
+        mandatory true;
+        description
+          "Reference of the VLAN interface (LTP), which shall no longer be connected with the VLAN (VlanFc), which is also provided as input.";
+      }
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:forwarding-domain/core-model:fc" {
+    when "derived-from-or-self(./core-model:layer-protocol-name, 'vlan-interface:LAYER_PROTOCOL_NAME_TYPE_VLAN_LAYER')";
+    description
+      "none";
+    uses vlan-fc-spec;
+  }
+}

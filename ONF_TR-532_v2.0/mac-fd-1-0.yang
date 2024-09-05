@@ -1,0 +1,311 @@
+module mac-fd-1-0 {
+  yang-version 1.1;
+  namespace "urn:onf:yang:mac-fd-1-0";
+  prefix mac-fd;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import core-model-1-4 {
+    prefix core-model;
+  }
+  import mac-interface-1-0 {
+    prefix mac-interface;
+  }
+
+  organization
+    "openBackhaul.com proposal to Open Networking Foundation (ONF)";
+  contact
+    "WG Web : https://github.com/openBackhaul/Overview
+     WG List: MacFd@openBackhaul.com
+     Editor : Thorsten Heinze
+     Email  : Thorsten.Heinze@openBackhaul.com";
+  description
+    "Technology specific amendment to the ForwardingDomain class for documenting potential forwarding (Ethernet Switch) according to IEEE 802.1 .
+
+     Copyright 2024 openBackhaul.com
+
+     Licensed under the Apache License, Version 2.0 (the 'License');
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an 'AS IS' BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.";
+
+  revision 2024-01-03 {
+    description
+      "Model for the Transport SDN Introduction at Telefonica Germany.
+       Please view https://github.com/openBackhaul/macFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/macFd/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2022-03-28 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/macFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/macFd/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+  revision 2020-10-16 {
+    description
+      "Model for the Transport SDN Pilot at Telefonica Germany.
+       Please view https://github.com/openBackhaul/macFd/issues for changes.";
+    reference
+      "https://github.com/openBackhaul/macFd/tree/tsi: Model definition
+       https://github.com/openBackhaul/onfCoreIm/tree/tsi: ONF TR-512 Core IM incl. Profile and enhanced Equipment definition";
+  }
+
+  /****************************************
+   * typedef statements
+   **************************************/ 
+  /*********************************************
+   * grouping statements for complex data types
+   *******************************************/ 
+
+  identity FD_STATUS_TYPE {
+    description
+      "none";
+  }
+
+  identity FD_STATUS_TYPE_UP {
+    base FD_STATUS_TYPE;
+    description
+      "Ready to pass packets. It is expected that the LogicalTerminationPoint::operationalState attribute is expressing this logical layer being available for use (means: ENABLED), while this value occurs.";
+  }
+
+  identity FD_STATUS_TYPE_DOWN {
+    base FD_STATUS_TYPE;
+    description
+      "The interface does not pass any packets. It is expected that the LogicalTerminationPoint::operationalState attribute is expressing this logical layer being NOT available for use (means: DISABLED), while this value occurs.";
+  }
+
+  identity FD_STATUS_TYPE_TESTING {
+    base FD_STATUS_TYPE;
+    description
+      "In some test mode.  No operational packets can be passed. It is expected that the LogicalTerminationPoint::operationalState attribute is expressing this logical layer being NOT available for use (means: DISABLED), while this value occurs.";
+  }
+
+  identity FD_STATUS_TYPE_UNKNOWN {
+    base FD_STATUS_TYPE;
+    description
+      "Status cannot be determined for some reason. While this value occurs, the LogicalTerminationPoint::operationalState attribute, which is expressing the availability of the logical layer for being used, might have either ENABLED or DISABLED as value.";
+  }
+
+  identity FD_STATUS_TYPE_DORMANT {
+    base FD_STATUS_TYPE;
+    description
+      "Waiting for some external event. It is expected that the LogicalTerminationPoint::operationalState attribute is expressing this logical layer being available for use (means: ENABLED), while this value occurs.";
+  }
+
+  identity FD_STATUS_TYPE_NOT_PRESENT {
+    base FD_STATUS_TYPE;
+    description
+      "Some component (typically hardware) is missing. It is expected that the LogicalTerminationPoint::operationalState attribute is expressing this logical layer being NOT available for use (means: DISABLED), while this value occurs.";
+  }
+
+  identity FD_STATUS_TYPE_NOT_YET_DEFINED {
+    base FD_STATUS_TYPE;
+    description
+      "While this value occurs, the LogicalTerminationPoint::operationalState attribute, which is expressing the availability of the logical layer for being used, might have either ENABLED or DISABLED as value.";
+  }
+
+  /****************************************
+   * package super-types
+   **************************************/ 
+
+  typedef fd-status-type {
+    type identityref {
+      base FD_STATUS_TYPE;
+    }
+    description
+      "Current Status of the Forwarding Domain";
+  }
+
+  /****************************************
+   * grouping statements for object classes
+   **************************************/ 
+
+  grouping mac-fd-spec {
+    description
+      "The database that holds static and learned entries describing the MAC forwarding. Name in ieee802-dot1q-bridge.yang: filtering-database.";
+    container mac-fd-pac {
+      description
+        "none";
+      uses mac-fd-pac;
+    }
+  }
+
+  grouping mac-fd-pac {
+    description
+      "none";
+    container mac-fd-capability {
+      config false;
+      description
+        "none";
+      uses mac-fd-capability;
+    }
+    container mac-fd-configuration {
+      description
+        "none";
+      uses mac-fd-configuration;
+    }
+    container mac-fd-status {
+      config false;
+      description
+        "none";
+      uses mac-fd-status;
+    }
+  }
+
+  grouping mac-fd-capability {
+    description
+      "none";
+    leaf supported-maximum-number-of-entries {
+      type int32;
+      units "entry";
+      default "-1";
+      config false;
+      description
+        "The maximum number of entries that can be held in the FDB. Name in ieee802-dot1q-bridge.yang: size.";
+    }
+  }
+
+  grouping mac-fd-configuration {
+    description
+      "none";
+    leaf fd-name {
+      type string;
+      default "Forwarding Domain name not yet defined.";
+      description
+        "Name of the ForwardingDomain. Free text field to be filled by the operator.";
+    }
+    leaf mac-address {
+      type string;
+      default "00:00:00:00:00:00";
+      description
+        "MAC address, which is configured at this Layer 2 Switch. Default value (00:00:00:00:00:00) indicates that the MAC address is not configurable at this switch.";
+    }
+    leaf aging-time {
+      type int32;
+      units "s";
+      default "-1";
+      description
+        "The timeout period (10..10,000,000) in seconds for aging out dynamically-learned forwarding information. Name in ieee802-dot1q-bridge.yang: aging-time.";
+    }
+    leaf maximum-number-of-entries {
+      type int32;
+      units "entry";
+      default "-1";
+      description
+        "Number of entries in the forwarding table shall be limited to this value.";
+    }
+  }
+
+  grouping mac-fd-status {
+    description
+      "none";
+    leaf mac-address-cur {
+      type string;
+      default "00:00:00:00:00:00";
+      config false;
+      description
+        "MAC address, which is currently active on this switch (either configured or imprinted).";
+    }
+    leaf number-of-static-entries-cur {
+      type int32;
+      units "entry";
+      default "-1";
+      config false;
+      description
+        "The number of Static Filtering entries currently in the FDB. Name in ieee802-dot1q-bridge.yang: static-entries.";
+    }
+    leaf number-of-dynamic-entries-cur {
+      type int32;
+      units "entry";
+      default "-1";
+      config false;
+      description
+        "The number of Dynamic Filtering entries currently in the FDB. Name in ieee802-dot1q-bridge.yang: dynamic-entries.";
+    }
+    leaf number-of-mac-registrations-cur {
+      type int32;
+      units "registration";
+      default "-1";
+      config false;
+      description
+        "The number of MAC Address Registration entries currently in the FDB. Name in ieee802-dot1q-bridge.yang: mac-address-registration-entries.";
+    }
+    leaf fd-status {
+      type fd-status-type;
+      default "FD_STATUS_TYPE_NOT_YET_DEFINED";
+      config false;
+      description
+        "Operational status of the forwarding domain.";
+    }
+  }
+
+  grouping mac-table-entry-type {
+    description
+      "none";
+    leaf affected-mac-fd {
+      type leafref {
+        path "/core-model:control-construct/core-model:forwarding-domain/core-model:uuid";
+        require-instance false;
+      }
+      config false;
+      description
+        "Reference to the MAC switch, which is holding the MAC address table that is containing this entry.";
+    }
+    leaf mac-address {
+      type string;
+      default "00:00:00:00:00:00";
+      config false;
+      description
+        "MAC address that can be reached on the referenced interface.";
+    }
+    leaf vlan-id {
+      type int64;
+      default "-1";
+      config false;
+      description
+        "VLAN, in which the MAC address can be reached at the referenced interface. If VLAN bridging would be deactivated, this value should be 0.";
+    }
+    leaf egress-ltp {
+      type leafref {
+        path "/core-model:control-construct/core-model:logical-termination-point/core-model:uuid";
+        require-instance false;
+      }
+      config false;
+      description
+        "MAC interface that connects the MAC address.";
+    }
+  }
+
+  /****************************************
+   * package interfaces
+   **************************************/ 
+
+  rpc provide-learned-mac-addresses {
+    description
+      "none";
+    output {
+      list mac-table-entry-list {
+        description
+          "List of MAC address table entries.";
+        uses mac-table-entry-type;
+      }
+    }
+  }
+
+  augment "/core-model:control-construct/core-model:forwarding-domain" {
+    when "derived-from-or-self(./core-model:layer-protocol-name, 'mac-interface:LAYER_PROTOCOL_NAME_TYPE_MAC_LAYER')";
+    description
+      "none";
+    uses mac-fd-spec;
+  }
+}
